@@ -1,0 +1,34 @@
+[
+    {
+    $unwind: "$items",
+    },
+    {
+    $group: {
+      _id: "$store",
+      totalRevenu: {
+        $sum: "$items.price",
+            },
+      averagePrice: {
+        $avg: "$items.price",
+            }
+        },
+    },
+    {
+    $sort: {
+      _id: 1,
+        },
+    },
+    {
+    $sort: {
+      totalRevenu: 1,
+        },
+    },
+    {
+    $project: {
+      store: "$_id",
+      _id: 0,
+      averagePrice: "$averagePrice",
+      totalRevenu: "$totalRevenu",
+        },
+    }
+]
